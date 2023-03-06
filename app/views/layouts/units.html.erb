@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-
   <title>Sports Portal</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
-
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
@@ -12,16 +10,15 @@
 </head>
 
 <body>
+  <%= render 'layouts/navbars/unit_navbar' %>
+  <%= render 'layouts/alerts' %>
 
-<section class="section">
+  <section class="section">
+    <div>
+      <%= yield %>
+    </div>
+  </section>
 
-  <div>
-    <%= render 'layouts/alerts' %>
-    <%= yield %>
-  </div>
-</section>
-
-<%= render 'layouts/bulmajs' %>
-
+  <%= render 'layouts/bulmajs' %>
 </body>
 </html>

@@ -1,0 +1,36 @@
+<% Event.all.order(:max_age).each do |e| %>
+
+  <% @number_registered = Registration.where(event: e).joins(:cadet).where(cadet: { unit: current_user.unit }).count %>
+  <% @max_allowed = e.max_entries %>
+
+  <% if @number_registered == @max_allowed %>
+    <% @sub_style = 'style=color:green' %>
+  <% else %>
+    <% @sub_style = 'style=color:orange' %>
+  <% end %>
+
+  <div class="column is-narrow">
+  <!--div class="block container is-fluid"-->
+    <div class="card ">
+      <div class="card-content">
+        <p class="title">
+          <%= e.name %>
+        </p>
+        <h3 class="subtitle is-3" <%= @sub_style %> >
+          <%= @number_registered %> Signed up out of <%= @max_allowed %>
+        </h3>
+      </div>
+      <footer class="card-footer">
+        <p class="card-footer-item">
+          <a href="#">Submit</a>
+        </p>
+        <p class="card-footer-item">
+      <span>
+        <a href="#">Edit</a>
+      </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+
+<% end %>

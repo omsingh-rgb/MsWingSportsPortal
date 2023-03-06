@@ -3,6 +3,12 @@ Rails.application.routes.draw do
 
   root 'welcome#index'
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  get '/dashboard-units', to: 'units#dashboard', as: 'unit_dashboard'
+
+  get '/login', to: 'sessions#login', as: 'login'
+  post '/login', to: 'sessions#create'
+
+  get '/logout', to: 'sessions#destroy', as: 'logout'
+  post '/logout', to: 'sessions#destroy'
+
 end

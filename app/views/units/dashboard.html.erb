@@ -1,0 +1,13 @@
+<div class="columns">
+  <div class="column is-full" >
+    <div class="notification is-info">
+      <h1 class="title is-1">Welcome <%= current_user.unit.name %></h1>
+    </div>
+  </div>
+</div>
+
+<div class="container is-fluid">
+  <div class="columns is-multiline">
+    <%= render 'units/helpers/events' %>
+  </div>
+</div>

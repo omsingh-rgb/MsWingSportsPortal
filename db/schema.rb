@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_03_001835) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_20_214132) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,7 +22,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_03_001835) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "unit_id", null: false
+    t.string "gender"
     t.index ["unit_id"], name: "index_cadets_on_unit_id"
+  end
+
+  create_table "e_types", force: :cascade do |t|
+    t.string "name"
+    t.integer "per_cadet_limit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "events", force: :cascade do |t|
@@ -32,6 +40,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_03_001835) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "max_age"
+    t.string "gender"
+    t.bigint "e_type_id", null: false
+    t.index ["e_type_id"], name: "index_events_on_e_type_id"
+  end
+
+  create_table "managers", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "rank"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "unit_id", null: false
+    t.index ["unit_id"], name: "index_managers_on_unit_id"
   end
 
   create_table "registrations", force: :cascade do |t|
@@ -59,6 +80,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_03_001835) do
   end
 
   add_foreign_key "cadets", "units"
+  add_foreign_key "events", "e_types"
+  add_foreign_key "managers", "units"
   add_foreign_key "registrations", "cadets"
   add_foreign_key "registrations", "events"
   add_foreign_key "users", "units"

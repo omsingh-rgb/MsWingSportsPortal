@@ -1,0 +1,80 @@
+
+<h3 class="title is-3">Registered Cadets:</h3>
+
+<% @cadets = Cadet.joins(:registrations).where(unit: current_user.unit).where(registrations: {event: event})%>
+
+<%= render 'units/helpers/cadet_entry_registered', cadets:@cadets, event:event %>
+
+<hr>
+
+<h3 class="title is-3">Available Cadets:</h3>
+
+<% @date_range = (Competition.comp_date - event.max_age.year + 1.day)..(Competition.comp_date) %>
+
+<% @cadets = Cadet.left_outer_joins(:registrations)
+                  .where(unit: current_user.unit)
+                  .where(date_of_birth:@date_range)
+                  .where(gender: event.gender)
+                  .where.not('EXISTS (SELECT DISTINCT "c".*
+                                    FROM "cadets" as "c"
+                                         INNER JOIN "registrations" as "r"
+                                             ON "c"."id" = "r"."cadet_id"
+                                         INNER JOIN "events" as "e"
+                                            ON "r"."event_id" = "e"."id"
+                                    WHERE "e"."e_type_id" = :tid AND
+                                          "c"."id" = "cadets"."id"
+                                    GROUP BY "c"."id"
+                                    HAVING COUNT(*) >= :max)',
+                                    tid: event.e_type_id,
+                                    max: event.e_type.per_cadet_limit)
+                  .where.not(id: Cadet.joins(:registrations)
+                                      .where(unit: current_user.unit)
+                                      .where(registrations: {event: event})
+                                      .select(:id))
+                  .distinct%>
+<%= render 'units/helpers/cadet_entry_avaliable', cadets:@cadets, event:event, more_signups_available:more_signups_available%>
+
+<hr>
+
+<h3 class="title is-3">Create Cadets:</h3>
+
+<%= render 'units/helpers/cadet_entry_create_and_add', event:event %>
+
+<hr>
+
+<h3 class="title is-3">Not Eligible Cadets - Age:</h3>
+
+<% @cadets = Cadet.where(unit: current_user.unit).where.not(date_of_birth:@date_range) %>
+
+<%= render 'units/helpers/cadet_entry_not_eligible', cadets:@cadets, event:event %>
+
+<h3 class="title is-3">Not Eligible Cadets - Competing Category:</h3>
+
+<% @cadets = Cadet.where(unit: current_user.unit).where.not(gender: event.gender).where(date_of_birth:@date_range)%>
+
+
+<%= render 'units/helpers/cadet_entry_not_eligible', cadets:@cadets, event:event %>
+
+<h3 class="title is-3">Not Eligible Cadets - Subscribed to Limit:</h3>
+
+<% @cadets = Cadet.where(unit: current_user.unit)
+                  .where(date_of_birth:@date_range)
+                  .where(gender: event.gender)
+                  .where('EXISTS (SELECT DISTINCT "c".*
+                                    FROM "cadets" as "c"
+                                         INNER JOIN "registrations" as "r"
+                                             ON "c"."id" = "r"."cadet_id"
+                                         INNER JOIN "events" as "e"
+                                            ON "r"."event_id" = "e"."id"
+                                    WHERE "e"."e_type_id" = :tid AND
+                                          "c"."id" = "cadets"."id"
+                                    GROUP BY "c"."id"
+                                    HAVING COUNT(*) >= :max)',
+                         tid: event.e_type_id,
+                         max: event.e_type.per_cadet_limit)
+                  .where.not(id: Cadet.joins(:registrations)
+                  .where(unit: current_user.unit)
+                  .where(registrations: {event: event})
+                  .select(:id))%>
+
+<%= render 'units/helpers/cadet_entry_not_eligible', cadets:@cadets, event:event %>

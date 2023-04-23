@@ -1,6 +1,7 @@
 <% Event.all.order(:max_age).each do |e| %>
 
-  <% @number_registered = Registration.where(event: e).joins(:cadet).where(cadet: { unit: current_user.unit }).count %>
+  <% @registrations = Registration.where(event: e).joins(:cadet).where(cadet: { unit: current_user.unit }) %>
+  <% @number_registered = @registrations.count %>
   <% @max_allowed = e.max_entries %>
 
   <% if @number_registered == @max_allowed %>
@@ -8,7 +9,6 @@
   <% else %>
     <% @sub_style = 'style=color:orange' %>
   <% end %>
-
   <div class="column is-narrow">
   <!--div class="block container is-fluid"-->
     <div class="card ">
@@ -17,8 +17,11 @@
           <%= e.name %>
         </p>
         <h3 class="subtitle is-3" <%= @sub_style %> >
-          <%= @number_registered %> Signed up out of <%= @max_allowed %>
+          <%= @number_registered %> / <%= @max_allowed %>
         </h3>
+        <% Registration.where(event: e).joins(:cadet).where(cadet: { unit: current_user.unit }).each do |r| %>
+          <h4 class="subtitle is-4" <%= @sub_style %> ><%= r.cadet.first_name %> <%= r.cadet.last_name %></h4>
+        <% end %>
       </div>
       <footer class="card-footer">
         <p class="card-footer-item">
@@ -26,7 +29,7 @@
         </p>
         <p class="card-footer-item">
       <span>
-        <a href="#">Edit</a>
+        <a href="/unit-event-edit/<%= e.id %>">Edit</a>
       </span>
         </p>
       </footer>

@@ -1,13 +1,33 @@
-<div class="columns">
-  <div class="column is-full" >
-    <div class="notification is-info">
-      <h1 class="title is-1">Welcome <%= current_user.unit.name %></h1>
+
+<section class="hero is-primary">
+  <div class="hero-body">
+    <p class="title">
+      Welcome <%= current_user.unit.name %>
+    </p>
+    <p class="subtitle">
+      Competition date : <%= Competition.comp_date %>
+    </p>
+    <p class="subtitle">
+      Bellow are all your avaliable events
+    </p>
+  </div>
+</section>
+
+<% managers = Manager.where(unit: current_user.unit) %>
+<%= if managers.count > 0
+     manager = managers.first
+     render 'units/helpers/manager_view', m:manager
+   else
+     render 'units/helpers/no_manager'
+   end
+%>
+
+<section class="section">
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+      <%= render 'units/helpers/events' %>
     </div>
   </div>
-</div>
+</section>
 
-<div class="container is-fluid">
-  <div class="columns is-multiline">
-    <%= render 'units/helpers/events' %>
-  </div>
-</div>
+

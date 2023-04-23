@@ -5,7 +5,11 @@ class SessionsController < ApplicationController
 
     if !!@user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
-      redirect_to unit_dashboard_path
+      if @user.username == "Admin"
+        redirect_to admin_dashboard_path
+      else
+        redirect_to unit_dashboard_path
+      end
     else
       message = "Make sure you have entered the username and password correctly"
       redirect_to login_path, notice: message
@@ -13,8 +17,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    @user = nil
-    session[:user_id] = nil
+    helpers.destroy
 
     message = "Successfully Logged out"
     redirect_to root_path , notice: message

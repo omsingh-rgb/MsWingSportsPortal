@@ -1,0 +1,36 @@
+<% @registration = Registration.where(event: @curr).joins(:cadet).where(cadet: { unit: current_user.unit }) %>
+<% @number_registered = @registration.count %>
+<% @max_allowed = @curr.max_entries %>
+
+<% if @number_registered == @max_allowed %>
+  <% @sub_style = 'style=color:green' %>
+<% else %>
+  <% @sub_style = 'style=color:orange' %>
+<% end %>
+
+
+<div class="card">
+  <div class="card-content">
+    <div class="columns">
+      <div class="column is-narrow">
+        <div class="content">
+          <p class="title"><%= @curr.name %></p>
+          <h3 class="subtitle is-3" <%= @sub_style %> >
+            Registered : <%= @number_registered %> / <%= @max_allowed %>
+          </h3>
+        </div>
+      </div>
+    <div class="column">
+      <a class="button is-large is-responsive is-black" href="<%= unit_dashboard_path %>">
+        &larr; Back
+      </a>
+    </div>
+
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-content">
+    <%= render 'units/helpers/cadet_entry_full', event:@curr, more_signups_available:(@number_registered >= @max_allowed)%>
+  </div>
+</div>

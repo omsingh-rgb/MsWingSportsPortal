@@ -13,5 +13,10 @@ module ApplicationHelper
     end
   end
 
+  def destroy
+    @user = nil
+    session[:user_id] = nil
+  end
+
 
 end

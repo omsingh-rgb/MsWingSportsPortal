@@ -1,0 +1,19 @@
+<% cadets.each do |cadet| %>
+
+  <nav class="level">
+    <div class="level-left">
+
+      <%= render 'units/helpers/cadet_info_as_level_items', c:cadet %>
+
+      <div class="level-item" >
+        <a class='button is-danger is-outlined' href="/unit-remove-cadet/<%= event.id %>/<%= cadet.id %>">
+          <span>Delete</span>
+          <span class='icon is-small'>
+                  &#x2715
+          </span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+<% end %>

@@ -1,0 +1,9 @@
+<section class="hero is-small is-primary is-link">
+  <div class="hero-body">
+    <p class="title">
+      <% curr = Manager.where(unit: current_user.unit).first %>
+      Manager: <%= curr.rank %> <%= curr.first_name %> <%= curr.last_name %>
+    </p>
+    <a class="button is-link is-light" href="<%= unit_edit_manager_path %>">Change Manager</a>
+  </div>
+</section>

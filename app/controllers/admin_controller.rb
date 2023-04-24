@@ -4,7 +4,7 @@ class AdminController < ApplicationController
   def authenticate_admin
     puts "Authenticating admin"
     if helpers.logged_in?
-      unless "Admin".eql?(helpers.current_user.username)
+      unless "Admin".eql?(helpers.current_user.username) or "admin".eql?(helpers.current_user.username)
         helpers.destroy
         message = "Invalid Request"
         redirect_to login_path, notice: message

@@ -1,4 +1,4 @@
-<% registrations = Registration.where(event: @e).joins(:cadet).where(cadet: { unit: current_user.unit }) %>
+<% registrations = Registration.where(event: e).joins(:cadet).where(cadet: { unit: current_user.unit }) %>
 <% number_registered = registrations.count %>
 <% max_allowed = e.max_entries %>
 

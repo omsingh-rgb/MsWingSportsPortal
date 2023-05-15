@@ -16,16 +16,24 @@ class UnitsController < ApplicationController
       message = "You need spesify a firstname and a lastname"
       redirect_to session[:fall_back_url], notice: message
       return
+    elsif params[:phone] == "" and params[:email] == ""
+      message = "You need provide a email or phone number"
+      redirect_to session[:fall_back_url], notice: message
+      return
     elsif managers.count > 0
         managers.first.update(first_name: params[:first_name],
                               last_name: params[:last_name],
                               rank: params[:rank],
+                              email: params[:email],
+                              phone: params[:phone],
                               unit: helpers.current_user.unit)
 
     else
       Manager.create(first_name: params[:first_name],
                      last_name: params[:last_name],
                      rank: params[:rank],
+                     email: params[:email],
+                     phone: params[:phone],
                      unit: helpers.current_user.unit)
     end
     redirect_to unit_dashboard_path, message: "Manager successfully recorded"

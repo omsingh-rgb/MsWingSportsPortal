@@ -20,4 +20,23 @@ class AdminController < ApplicationController
     session[:fall_back_url] = request.url
   end
 
+  def password_change
+    user = User.where(username: params[:username])
+    user.update(password: params[:password], password_confirmation: params[:password])
+    redirect_to admin_userc_path, message: "password changed"
+  end
+
+  def create_user
+    User.create(username: params[:username],
+                password: params[:password],
+                password_confirmation: params[:password],
+                unit: Unit.where(id: params[:uid]).first)
+    redirect_to admin_userc_path, message: "user created"
+  end
+
+  def user_delete
+    User.all.where(id: params[:uid]).first.delete
+    redirect_to admin_userc_path, message: "user deleted"
+  end
+
 end

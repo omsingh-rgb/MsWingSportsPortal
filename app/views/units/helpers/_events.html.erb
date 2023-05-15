@@ -1,36 +1,63 @@
-<% Event.all.order(:max_age).each do |e| %>
+<div class="columns is-multiline ">
 
-  <% @registrations = Registration.where(event: e).joins(:cadet).where(cadet: { unit: current_user.unit }) %>
-  <% @number_registered = @registrations.count %>
-  <% @max_allowed = e.max_entries %>
+  <div class="column is-narrow" style="border-right: 2px solid #E5EBEA">
+    <h2 class="subtitle is-2">Under 15s Boy's</h2>
+    <% Event.all.where(max_age: 15).where(gender: "male").each do |event| %>
 
-  <% if @number_registered == @max_allowed %>
-    <% @sub_style = 'style=color:green' %>
-  <% else %>
-    <% @sub_style = 'style=color:orange' %>
-  <% end %>
-  <div class="column is-narrow">
-  <!--div class="block container is-fluid"-->
-    <div class="card ">
-      <div class="card-content">
-        <p class="title">
-          <%= e.name %>
-        </p>
-        <h3 class="subtitle is-3" <%= @sub_style %> >
-          <%= @number_registered %> / <%= @max_allowed %>
-        </h3>
-        <% Registration.where(event: e).joins(:cadet).where(cadet: { unit: current_user.unit }).each do |r| %>
-          <h4 class="subtitle is-4" <%= @sub_style %> ><%= r.cadet.first_name %> <%= r.cadet.last_name %></h4>
-        <% end %>
-      </div>
-      <footer class="card-footer">
-        <p class="card-footer-item">
-      <span>
-        <a href="/unit-event-edit/<%= e.id %>">Edit</a>
-      </span>
-        </p>
-      </footer>
-    </div>
+      <%= render 'units/helpers/event', e: event %>
+
+    <% end %>
   </div>
 
-<% end %>
+  <div class="column is-narrow" style="border-right: 2px solid #E5EBEA">
+    <h2 class="subtitle is-2">Under 15s Girl's</h2>
+    <% Event.all.where(max_age: 15).where(gender: "female").each do |event| %>
+
+      <%= render 'units/helpers/event', e: event %>
+
+    <% end %>
+  </div>
+
+
+  <div class="column is-narrow" style="border-right: 2px solid #E5EBEA">
+    <h2 class="subtitle is-2">Under 17s Men's</h2>
+    <% Event.all.where(max_age: 17).where(gender: "male").each do |event| %>
+
+      <%= render 'units/helpers/event', e: event %>
+
+    <% end %>
+  </div>
+
+<!--  <div class="column is-narrow">
+    <h2 class="subtitle is-2">Under 17s Women's</h2>
+
+    <%# Event.all.where(max_age: 17).where(gender: "female").each do |event| %>
+
+      <%#= render 'units/helpers/event', e: event %>
+
+    <%# end %>
+  </div>-->
+
+
+  <div class="column is-narrow" style="border-right: 2px solid #E5EBEA">
+    <h2 class="subtitle is-2">Junior Men's</h2>
+
+    <% Event.all.where(max_age: 20).where(gender: "male").each do |event| %>
+
+      <%= render 'units/helpers/event', e: event %>
+
+    <% end %>
+  </div>
+
+
+  <div class="column is-narrow" style="border-right: 2px solid #E5EBEA">
+    <h2 class="subtitle is-2">Junior Women's</h2>
+
+    <% Event.all.where(max_age: 20).where(gender: "female").each do |event| %>
+
+      <%= render 'units/helpers/event', e: event %>
+
+    <% end %>
+  </div>
+
+</div>

@@ -14,8 +14,12 @@ Rails.application.routes.draw do
   get '/unit-edit-manager', to: 'units#edit_manager', as: 'unit_edit_manager'
 
   get '/admin-board', to: 'admin#dashboard', as: 'admin_dashboard'
+  get '/admin-users', to: 'admin#userc', as: 'admin_userc'
   get '/admin-event-edit/:id', to: 'admin#event_edit'
   get '/admin-event-view/:id', to: 'admin#event_view'
+  get '/admin-user-delete/:uid', to: 'admin#user_delete'
+  post '/admin-push-user-password-change', to: 'admin#password_change'
+  post '/admin-create-user/:uid', to: 'admin#create_user'
 
 
   get '/login', to: 'sessions#login', as: 'login'

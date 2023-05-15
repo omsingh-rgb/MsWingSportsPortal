@@ -1,0 +1,65 @@
+
+<div class="column is-narrow" style="border: 1px solid darkslategrey">
+  <h2 class="title is-2"><%= unit.name %></h2>
+
+  <% User.all.where(unit: unit).each do |user|%>
+    <div class="box">
+      <%= form_tag '/admin-push-user-password-change' do %>
+
+          <div class="field">
+            <div class="control">
+              <input class="input" id="username" name="username" type="text" value="<%= user.username %>" readonly>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input class="input" id="password" name="password" type="text" value="">
+            </div>
+          </div>
+
+          <div class="field is-grouped">
+            <div class="control">
+              <%= submit_tag 'Update', class: "button is-link is-green" %>
+            </div>
+
+            <% if user.username != "admin" %>
+              <div class="control">
+                <a class='button is-danger is-outlined' href="/admin-user-delete/<%=user.id%>">Delete</a>
+              </div>
+            <% end %>
+
+          </div>
+
+        <% end %>
+
+   </div>
+  <% end %>
+
+  <h3 class="title is-3">Create new user</h3>
+
+  <%= form_tag('/admin-create-user/' + String(unit.id)) do %>
+
+    <div class="field">
+      <div class="control">
+        <input class="input" id="username" name="username" type="text" value="user_<%= unit.name %>_<%= User.all.where(unit: unit).count + 1 %>" readonly>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Password</label>
+      <div class="control">
+        <input class="input" id="password" name="password" type="text" value="">
+      </div>
+    </div>
+
+    <div class="field is-grouped">
+      <div class="control">
+        <%= submit_tag 'Create', class: "button is-link is-green" %>
+      </div>
+    </div>
+
+  <% end %>
+
+</div>

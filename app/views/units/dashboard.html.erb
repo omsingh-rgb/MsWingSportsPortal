@@ -5,7 +5,7 @@
       Welcome <%= current_user.unit.name %>
     </p>
     <p class="subtitle">
-      Competition date : <%= Competition.comp_date %>
+      Competition date : <%= Competition.comp_date.strftime("%d-%b-%Y") %>
     </p>
     <p class="subtitle">
       Bellow are all your avaliable events

@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
         redirect_to unit_dashboard_path
       end
     else
-      message = "Make sure you have entered the username and password correctly"
+      message = "Invalid credentials"
       redirect_to login_path, notice: message
     end
   end

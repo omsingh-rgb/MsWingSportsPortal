@@ -11,6 +11,8 @@
       </dl>
 
       <% curr = Manager.where(unit: current_user.unit) %>
+      <% email = '' %>
+      <% phone_number = '' %>
       <% if curr.count == 0 %>
         <% first_name = '' %>
         <% last_name = '' %>
@@ -19,16 +21,43 @@
         <% first_name = curr.first.first_name %>
         <% last_name = curr.first.last_name %>
         <% rank = curr.first.rank %>
+        <% if curr.first.email != nil %>
+          <% email = curr.first.email %>
+        <% end %>
+        <% if curr.first.phone != nil %>
+          <% phone_number = curr.first.phone %>
+        <% end %>
       <% end %>
 
       <div class="columns">
         <div class="column is-two-fifths">
           <%= form_tag '/unit-push-manager-changes' do %>
 
-            <div class="field">
+            <!--div class="field">
               <label class="label">Rank</label>
               <div class="control">
                 <input class="input" id="rank" name="rank" type="text" value="<%= rank %>">
+              </div>
+            </div-->
+
+            <div class="field">
+              <label class="label">Rank</label>
+              <div class="control">
+                <div class="select">
+                  <select id="rank" name="rank" type="text">
+                    <option selected> <%= rank %></option>
+                    <option>CWO</option>
+                    <option>CI</option>
+                    <option>Cpl</option>
+                    <option>Sgt</option>
+                    <option>Flt Sgt</option>
+                    <option>WO</option>
+                    <option>Flying Officer</option>
+                    <option>Pilot Officer</option>
+                    <option>Flt Lt</option>
+                    <option>Sqn Ldr</option>
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -46,6 +75,19 @@
               </div>
             </div>
 
+            <div class="field">
+              <label class="label">Phone number</label>
+              <div class="control">
+                <input class="input" id="phone" name="phone" type="tel" value="<%= phone_number %>">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Email</label>
+              <div class="control">
+                <input class="input" id="email" name="email" type="email" value="<%= email %>">
+              </div>
+            </div>
 
             <div class="field is-grouped">
               <div class="control">

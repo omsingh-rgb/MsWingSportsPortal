@@ -1,0 +1,9 @@
+
+
+<div class="columns is-multiline">
+  <% Unit.all.each do |unit| %>
+
+    <%= render 'admin/helpers/unit_users', unit:unit %>
+
+  <% end %>
+</div>

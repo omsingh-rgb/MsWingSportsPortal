@@ -9,7 +9,7 @@
 
 <h3 class="title is-3">Available Cadets:</h3>
 
-<% @date_range = (Competition.comp_date - event.max_age.year + 1.day)..(Competition.comp_date) %>
+<% @date_range = (Competition.comp_date - event.max_age.year)..(Competition.comp_date) %>
 
 <% @cadets = Cadet.left_outer_joins(:registrations)
                   .where(unit: current_user.unit)

@@ -9,7 +9,16 @@
 
 <h3 class="title is-3">Available Cadets:</h3>
 
-<% @date_range = (Competition.comp_date - event.max_age.year)..(Competition.comp_date) %>
+
+<% if event.max_age == 15 %>
+  <% @date_range = (Date.new(2023, 8, 31) - event.max_age.year)..Date.new(2023, 8, 31)%>
+<% elsif event.max_age == 17 %>
+  <% @date_range = (Date.new(2023, 8, 31) - event.max_age.year)..(Date.new(2023, 8, 31) - 15.year - 1.day) %>
+<% elsif event.max_age == 20 %>
+  <% @date_range = (Date.new(2023, 12, 31) - event.max_age.year)..(Date.new(2023, 12, 31) - 17.year - 1.day) %>
+<% end %>
+
+
 
 <% @cadets = Cadet.left_outer_joins(:registrations)
                   .where(unit: current_user.unit)

@@ -77,7 +77,13 @@ class UnitsController < ApplicationController
 
     event = Event.where(id: params[:eid]).first
 
-    date_range = (Competition.comp_date - event.max_age.year + 1.day)..(Competition.comp_date)
+    if event.max_age == 15
+      date_range = (Date.new(2023, 8, 31) - event.max_age.year)..Date.new(2023, 8, 31)
+    elsif event.max_age == 17
+      date_range = (Date.new(2023, 8, 31) - event.max_age.year)..(Date.new(2023, 8, 31) - 15.year - 1.day)
+    elsif event.max_age == 20
+      date_range = (Date.new(2023, 12, 31) - event.max_age.year)..(Date.new(2023, 12, 31) - 17.year - 1.day)
+    end
 
     registration = Registration.where(event: event).joins(:cadet).where(cadet: { unit: helpers.current_user.unit })
     number_registered = registration.count
@@ -86,7 +92,7 @@ class UnitsController < ApplicationController
     if number_registered >= max_allowed
       message = "The Cadet cannot be added the max number of cadets has been exceeded"
     elsif !date_range.cover?(params[:dob].to_s.to_date)
-      message = "The Cadet your trying to add is too old"
+      message = "The Cadet your trying to add is too old or young"
     elsif params[:gender].downcase != "male" and params[:gender].downcase != "female"
       message = "You need to enter a correct category Male/Female"
     else

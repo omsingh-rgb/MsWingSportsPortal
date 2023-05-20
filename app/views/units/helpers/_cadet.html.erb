@@ -1,0 +1,61 @@
+
+<div class="column is-narrow">
+  <!--div class="block container is-fluid"-->
+
+  <div class="box">
+    <%= form_tag('/unit-push-cadet-change/' + c.id.to_s) do %>
+      <div class="field">
+        <label class="label">First Name</label>
+        <div class="control">
+          <input class="input" id="firstname" name="firstname" type="text" value="<%= c.first_name %>">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Last Name</label>
+        <div class="control">
+          <input class="input" id="lastname" name="lastname" type="text" value="<%= c.last_name %>">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">DOB</label>
+        <div class="control">
+          <input type="date" id="dob" name="dob" required pattern="\d{4}-\d{2}-\d{2}" value="<%= c.date_of_birth.strftime("%Y-%m-%d") %>" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">CID</label>
+        <div class="control">
+          <input class="input" id="cid" name="cid" type="text" value="<%= c.cadet_id %>">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Competing category</label>
+        <div class="control">
+          <div class="select">
+            <select id="gender" class="gender" name="gender">
+              <option selected> <%= c.gender %></option>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field is-grouped">
+        <div class="control">
+          <%= submit_tag 'Update', class: "button is-link is-green" %>
+        </div>
+      </div>
+
+    <% end %>
+
+    <%= form_tag('/unit-delete-change/' + c.id.to_s) do %>
+      <input  class='button is-danger is-outlined' type="Submit" name="Delete" value="Delete" />
+    <% end %>
+
+  </div>
+</div>

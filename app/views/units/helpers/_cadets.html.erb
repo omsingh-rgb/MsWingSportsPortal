@@ -1,0 +1,78 @@
+<div class="columns is-multiline ">
+
+  <div class="column is-narrow" style="border-right: 2px solid #E5EBEA">
+    <h2 class="subtitle is-2">Under 15s Boy's</h2>
+    <% Cadet.all.where(unit: current_user.unit)
+         .where(gender: "male")
+         .where(date_of_birth: ((Date.current - 15.years)..(Date.current)))
+         .each do |c| %>
+
+      <%= render 'units/helpers/cadet', c: c %>
+
+    <% end %>
+  </div>
+
+  <div class="column is-narrow" style="border-right: 2px solid #E5EBEA">
+    <h2 class="subtitle is-2">Under 15s Girl's</h2>
+    <% Cadet.all.where(unit: current_user.unit)
+            .where(gender: "female")
+            .where(date_of_birth: ((Date.current - 15.years)..(Date.current)))
+            .each do |c| %>
+
+      <%= render 'units/helpers/cadet', c: c %>
+
+    <% end %>
+  </div>
+
+
+  <div class="column is-narrow" style="border-right: 2px solid #E5EBEA">
+    <h2 class="subtitle is-2">Under 17s Men's</h2>
+    <% Cadet.all.where(unit: current_user.unit)
+            .where(gender: "male")
+            .where(date_of_birth: ((Date.current - 17.years)..(Date.current - 15.years - 1)))
+            .each do |c| %>
+
+      <%= render 'units/helpers/cadet', c: c %>
+
+    <% end %>
+  </div>
+
+<!--  <div class="column is-narrow">
+    <h2 class="subtitle is-2">Under 17s Women's</h2>
+
+    <%# Event.all.where(max_age: 17).where(gender: "female").each do |event| %>
+
+      <%#= render 'units/helpers/event', e: event %>
+
+    <%# end %>
+  </div>-->
+
+
+  <div class="column is-narrow" style="border-right: 2px solid #E5EBEA">
+    <h2 class="subtitle is-2">Junior Men's</h2>
+
+    <% Cadet.all.where(unit: current_user.unit)
+            .where(gender: "male")
+            .where(date_of_birth: ((Date.current - 20.years)..(Date.current - 17.years - 1)))
+            .each do |c| %>
+
+      <%= render 'units/helpers/cadet', c: c %>
+
+    <% end %>
+  </div>
+
+
+  <div class="column is-narrow" style="border-right: 2px solid #E5EBEA">
+    <h2 class="subtitle is-2">Junior Women's</h2>
+
+    <% Cadet.all.where(unit: current_user.unit)
+            .where(gender: "female")
+            .where(date_of_birth: ((Date.current - 20.years )..(Date.current - 15.years - 1)))
+            .each do |c| %>
+
+      <%= render 'units/helpers/cadet', c: c %>
+
+    <% end %>
+  </div>
+
+</div>

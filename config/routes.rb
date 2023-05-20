@@ -8,10 +8,14 @@ Rails.application.routes.draw do
   get '/unit-remove-cadet/:eid/:cid', to: 'units#unit_remove_cadet'
   get '/unit-add-cadet/:eid/:cid', to: 'units#unit_add_cadet'
 
+  post '/unit-push-cadet-change/:cid', to: 'units#push_cadet'
   post 'unit-push-manager-changes', to: 'units#push_manager'
+  post '/unit-delete-change/:cid', to: 'units#delete_cadet'
+  post '/unit-create-cadet', to: 'units#cadet_create'
   post '/unit-create-event-cadet/:eid', to: 'units#cadet_event_create'
 
   get '/unit-edit-manager', to: 'units#edit_manager', as: 'unit_edit_manager'
+  get '/cadet-edit', to: 'units#cadet_edit', as: 'cadet_edit'
 
   get '/admin-board', to: 'admin#dashboard', as: 'admin_dashboard'
   get '/admin-users', to: 'admin#userc', as: 'admin_userc'

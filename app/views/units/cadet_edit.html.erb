@@ -1,0 +1,29 @@
+<section class="hero is-primary">
+  <div class="hero-body">
+    <p class="title">
+      <%= current_user.unit.name %> Cadet Edit
+    </p>
+    <p class="subtitle">
+      Competition date : <%= Competition.comp_date.strftime("%d-%b-%Y") %>
+    </p>
+    <p class="subtitle">
+      Bellow are all your registered Cadets
+      All age categories are relative to TODAY and NOT the COMPETITION
+    </p>
+  </div>
+</section>
+
+<section class="section">
+    <p class="title">
+      Create New Cadet
+    </p>
+      <%= render 'units/helpers/cadet_entry_create' %>
+</section>
+
+<section class="section">
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+      <%= render 'units/helpers/cadets' %>
+    </div>
+  </div>
+</section>

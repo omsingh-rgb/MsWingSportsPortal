@@ -21,12 +21,12 @@ class UnitsController < ApplicationController
       redirect_to session[:fall_back_url], notice: message
       return
     elsif managers.count > 0
-        managers.first.update(first_name: params[:first_name],
-                              last_name: params[:last_name],
-                              rank: params[:rank],
-                              email: params[:email],
-                              phone: params[:phone],
-                              unit: helpers.current_user.unit)
+      managers.first.update(first_name: params[:first_name],
+                            last_name: params[:last_name],
+                            rank: params[:rank],
+                            email: params[:email],
+                            phone: params[:phone],
+                            unit: helpers.current_user.unit)
 
     else
       Manager.create(first_name: params[:first_name],
@@ -61,14 +61,18 @@ class UnitsController < ApplicationController
       registrations.each do |r|
 
         if r.event.max_age == 15
-          date_range = (Date.new(2023, 8, 31) - r.event.max_age.year)..Date.new(2023, 8, 31)
+          if r.event.max_age == "female"
+            date_range = (Date.new(2023, 12, 31) - event.max_age.year)..Date.new(2023, 8, 31)
+          else
+            date_range = (Date.new(2023, 8, 31) - event.max_age.year)..Date.new(2023, 8, 31)
+          end
         elsif r.event.max_age == 17
-          date_range = (Date.new(2023, 8, 31) - r.event.max_age.year)..(Date.new(2023, 8, 31) - 15.year - 1.day)
+          date_range = (Date.new(2023, 12, 31) - event.max_age.year)..(Date.new(2023, 8, 31) - 15.year - 1.day)
+        elsif r.event.max_age == 20
+          if r.event.max_age == "female"
+            date_range = (Date.new(2023, 12, 31) - event.max_age.year)..(Date.new(2023, 12, 31) - 15.year - 1.day)
           else
-          if r.event.gender == "female"
-            date_range = (Date.new(2023, 12, 31) - r.event.max_age.year)..(Date.new(2023, 12, 31) - 15.year - 1.day)
-          else
-            date_range = (Date.new(2023, 12, 31) - r.event.max_age.year)..(Date.new(2023, 12, 31) - 17.year - 1.day)
+            date_range = (Date.new(2023, 12, 31) - event.max_age.year)..(Date.new(2023, 12, 31) - 17.year - 1.day)
           end
         end
 
@@ -80,11 +84,11 @@ class UnitsController < ApplicationController
       end
 
       cadet.first.update(first_name: params[:firstname],
-                            last_name: params[:lastname],
-                            cadet_id: params[:cid],
-                            gender: params[:gender],
-                            date_of_birth: params[:dob],
-                            unit: helpers.current_user.unit)
+                         last_name: params[:lastname],
+                         cadet_id: params[:cid],
+                         gender: params[:gender],
+                         date_of_birth: params[:dob],
+                         unit: helpers.current_user.unit)
 
     else
       Cadet.create(first_name: params[:firstname],
@@ -111,8 +115,9 @@ class UnitsController < ApplicationController
 
     redirect_to cadet_edit_path, message: "Cadet successfully Deleted"
   end
+
   def unit_remove_cadet
-    @reg = Registration.where(event_id: params[:eid]).joins(:cadet).where(cadet: {id: params[:cid], unit: helpers.current_user.unit })
+    @reg = Registration.where(event_id: params[:eid]).joins(:cadet).where(cadet: { id: params[:cid], unit: helpers.current_user.unit })
     @reg.destroy_all
 
     message = "The Cadet has been removed Successfully"
@@ -171,14 +176,19 @@ class UnitsController < ApplicationController
     end
     redirect_to cadet_edit_path, notice: message
   end
+
   def cadet_event_create
 
     event = Event.where(id: params[:eid]).first
 
     if event.max_age == 15
-      date_range = (Date.new(2023, 8, 31) - event.max_age.year)..Date.new(2023, 8, 31)
+      if event.gender == "female"
+        date_range = (Date.new(2023, 12, 31) - event.max_age.year)..Date.new(2023, 8, 31)
+      else
+        date_range = (Date.new(2023, 8, 31) - event.max_age.year)..Date.new(2023, 8, 31)
+      end
     elsif event.max_age == 17
-      date_range = (Date.new(2023, 8, 31) - event.max_age.year)..(Date.new(2023, 8, 31) - 15.year - 1.day)
+      date_range = (Date.new(2023, 12, 31) - event.max_age.year)..(Date.new(2023, 8, 31) - 15.year - 1.day)
     elsif event.max_age == 20
       if event.gender == "female"
         date_range = (Date.new(2023, 12, 31) - event.max_age.year)..(Date.new(2023, 12, 31) - 15.year - 1.day)
@@ -210,9 +220,6 @@ class UnitsController < ApplicationController
       Registration.create(event: event, cadet: cadet)
       message = "The Cadet has  created and been added successfully"
     end
-
-
-
 
     if session[:fall_back_url] == nil
       redirect_to unit_dashboard_path, notice: message

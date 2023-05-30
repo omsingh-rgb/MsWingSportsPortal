@@ -1,0 +1,102 @@
+<section class="hero is-primary">
+  <div class="hero-body">
+    <p class="title">
+      Welcome Admin
+    </p>
+    <p class="subtitle">
+      Bellow are all registrations
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Event</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>DOB</th>
+      <th>CID</th>
+      <th>cid</th>
+      <th>eid</th>
+      <th>Unit</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% Registration.all.each do |reg| %>
+
+      <% event = reg.event %>
+
+      <% if event.max_age == 15 %>
+        <% if event.gender == "female" %>
+          <% date_range = (Date.new(2023, 12, 31) - event.max_age.year)..Date.new(2023, 8, 31) %>
+        <% else %>
+          <% date_range = (Date.new(2023, 8, 31) - event.max_age.year)..Date.new(2023, 8, 31) %>
+        <% end %>
+      <% elsif event.max_age == 17 %>
+        <% date_range = (Date.new(2023, 12, 31) - event.max_age.year)..(Date.new(2023, 8, 31) - 15.year - 1.day) %>
+      <% elsif event.max_age == 20 %>
+        <% if event.gender == "female" %>
+          <% date_range = (Date.new(2023, 12, 31) - event.max_age.year)..(Date.new(2023, 12, 31) - 15.year - 1.day) %>
+        <% else %>
+          <% date_range = (Date.new(2023, 12, 31) - event.max_age.year)..(Date.new(2023, 12, 31) - 17.year - 1.day) %>
+        <% end %>
+      <% end %>
+
+      <% unless date_range.cover?(reg.cadet.date_of_birth.to_s.to_date) %>
+        <tr>
+          <th><%= reg.event.name %></th>
+          <th><%= reg.cadet.first_name %></th>
+          <th><%= reg.cadet.last_name %></th>
+          <td><%= reg.cadet.date_of_birth %></td>
+          <td><%= reg.cadet.cadet_id %></td>
+          <td><%= reg.cadet.id %></td>
+          <td><%= reg.event.id %></td>
+          <td><%= reg.cadet.unit.name %></td>
+        </tr>
+    <%  end %>
+
+    <% end %>
+
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Event</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>DOB</th>
+      <th>CID</th>
+      <th>cid</th>
+      <th>eid</th>
+      <th>Unit</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% Registration.all.each do |reg| %>
+
+        <tr>
+          <th><%= reg.event.name %></th>
+          <th><%= reg.cadet.first_name %></th>
+          <th><%= reg.cadet.last_name %></th>
+          <td><%= reg.cadet.date_of_birth %></td>
+          <td><%= reg.cadet.cadet_id %></td>
+          <td><%= reg.cadet.id %></td>
+          <td><%= reg.event.id %></td>
+          <td><%= reg.cadet.unit.name %></td>
+        </tr>
+
+    <% end %>
+
+    </tbody>
+  </table>
+</section>
+
+

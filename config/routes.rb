@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get '/admin-board', to: 'admin#dashboard', as: 'admin_dashboard'
   get '/admin-users', to: 'admin#userc', as: 'admin_userc'
   get '/admin-regs', to: 'admin#allEntries', as: 'allEntries'
+  get '/admin-summary', to: 'admin#summary', as: 'summary'
   get '/admin-event-edit/:id', to: 'admin#event_edit'
   get '/admin-event-view/:id', to: 'admin#event_view'
   get '/admin-user-delete/:uid', to: 'admin#user_delete'

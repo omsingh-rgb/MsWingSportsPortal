@@ -1,30 +1,39 @@
 
 <% registrations = Registration.where(event: @curr).joins(:cadet) %>
 
-<table class="table">
-  <thead>
-  <tr>
-    <th>First Name</th>
-    <th>Last Name</th>
-    <th>DOB</th>
-    <th>CID</th>
-    <th>Unit</th>
-  </tr>
-  </thead>
 
-  <tbody>
-  <% registrations.each do |reg| %>
+<section class="section">
+
+  <h1 class="title is-1"> <%= @curr.name %> </h1>
+
+  <table class="table">
+    <thead>
     <tr>
-      <th><%= reg.cadet.first_name %></th>
-      <th><%= reg.cadet.last_name %></th>
-      <td><%= reg.cadet.date_of_birth %></td>
-      <td><%= reg.cadet.cadet_id %></td>
-      <td><%= reg.cadet.unit.name %></td>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>DOB</th>
+      <th>CID</th>
+      <th>Unit</th>
+      <th>Result</th>
     </tr>
-  <% end %>
+    </thead>
 
-  </tbody>
-</table>
+    <tbody>
+    <% registrations.each do |reg| %>
+      <tr>
+        <th><%= reg.cadet.first_name %></th>
+        <th><%= reg.cadet.last_name %></th>
+        <td><%= reg.cadet.date_of_birth %></td>
+        <td><%= reg.cadet.cadet_id %></td>
+        <td><%= reg.cadet.unit.name %></td>
+        <td><input class="input" type="text" placeholder=""></td>
+      </tr>
+    <% end %>
+
+    </tbody>
+  </table>
+</section>
+
 
 
 

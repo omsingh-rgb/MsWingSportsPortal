@@ -1,0 +1,123 @@
+<section class="hero is-primary">
+  <div class="hero-body">
+    <p class="title">
+      Participant Summary
+    </p>
+    <p class="subtitle">
+      Bellow is a summary of all cadets that are REGISTERED FOR AT LEAST ONE EVENT
+    </p>
+  </div>
+</section>
+
+
+<section class="section">
+
+  <h1 class="title is-1"> TOTAL</h1>
+  <h3 class="title"> - <%= Cadet.all.where('EXISTS (SELECT DISTINCT "c".*
+                                    FROM "cadets" as "c"
+                                         INNER JOIN "registrations" as "r"
+                                             ON "c"."id" = "r"."cadet_id"
+                                         INNER JOIN "events" as "e"
+                                            ON "r"."event_id" = "e"."id"
+                                    WHERE "c"."id" = "cadets"."id"
+                                    GROUP BY "c"."id"
+                                    HAVING COUNT(*) >= 1)').distinct.count %> </h3>
+
+</section>
+
+<section class="section">
+
+  <h1 class="title is-1"> CATEGORY SUMMARY</h1>
+
+  <% @date_range = (Date.new(2023, 8, 31) - 15.year)..Date.new(2023, 8, 31) %>
+
+  <h3 class="title"> U15F - <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "female")
+                                     .where('EXISTS (SELECT DISTINCT "c".*
+                                    FROM "cadets" as "c"
+                                         INNER JOIN "registrations" as "r"
+                                             ON "c"."id" = "r"."cadet_id"
+                                         INNER JOIN "events" as "e"
+                                            ON "r"."event_id" = "e"."id"
+                                    WHERE "c"."id" = "cadets"."id"
+                                    GROUP BY "c"."id"
+                                    HAVING COUNT(*) >= 1)').distinct.count %> </h3>
+
+  <h3 class="title"> U15M - <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "male")
+                                     .where('EXISTS (SELECT DISTINCT "c".*
+                                    FROM "cadets" as "c"
+                                         INNER JOIN "registrations" as "r"
+                                             ON "c"."id" = "r"."cadet_id"
+                                         INNER JOIN "events" as "e"
+                                            ON "r"."event_id" = "e"."id"
+                                    WHERE "c"."id" = "cadets"."id"
+                                    GROUP BY "c"."id"
+                                    HAVING COUNT(*) >= 1)').distinct.count %> </h3>
+
+  <% @date_range = (Date.new(2023, 8, 31) - 17.year)..(Date.new(2023, 8, 31) - 15.year - 1.day) %>
+
+  <h3 class="title"> U17M - <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "male")
+                                     .where('EXISTS (SELECT DISTINCT "c".*
+                                      FROM "cadets" as "c"
+                                           INNER JOIN "registrations" as "r"
+                                               ON "c"."id" = "r"."cadet_id"
+                                           INNER JOIN "events" as "e"
+                                              ON "r"."event_id" = "e"."id"
+                                      WHERE "c"."id" = "cadets"."id"
+                                      GROUP BY "c"."id"
+                                      HAVING COUNT(*) >= 1)').distinct.count %> </h3>
+
+  <% @date_range = (Date.new(2023, 12, 31) - 20.year)..(Date.new(2023, 8, 31) - 15.year - 1.day) %>
+
+  <h3 class="title"> JW - <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "female")
+                                     .where('EXISTS (SELECT DISTINCT "c".*
+                                          FROM "cadets" as "c"
+                                               INNER JOIN "registrations" as "r"
+                                                   ON "c"."id" = "r"."cadet_id"
+                                               INNER JOIN "events" as "e"
+                                                  ON "r"."event_id" = "e"."id"
+                                          WHERE "c"."id" = "cadets"."id"
+                                          GROUP BY "c"."id"
+                                          HAVING COUNT(*) >= 1)').distinct.count %> </h3>
+
+
+  <% @date_range = (Date.new(2023, 12, 31) - 20.year)..(Date.new(2023, 8, 31) - 17.year - 1.day) %>
+
+  <h3 class="title"> JM - <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "male")
+                                     .where('EXISTS (SELECT DISTINCT "c".*
+                                          FROM "cadets" as "c"
+                                               INNER JOIN "registrations" as "r"
+                                                   ON "c"."id" = "r"."cadet_id"
+                                               INNER JOIN "events" as "e"
+                                                  ON "r"."event_id" = "e"."id"
+                                          WHERE "c"."id" = "cadets"."id"
+                                          GROUP BY "c"."id"
+                                          HAVING COUNT(*) >= 1)').distinct.count %> </h3>
+
+
+</section>
+
+
+<section class="section">
+
+  <h1 class="title is-1"> UNIT SUMMARY</h1>
+
+
+
+  <% Unit.all.each do |u| %>
+
+    <h3 class="title"> <%= u.name %>  - <%= Cadet.all.where(unit: u)
+                                                 .where('EXISTS (SELECT DISTINCT "c".*
+                                    FROM "cadets" as "c"
+                                         INNER JOIN "registrations" as "r"
+                                             ON "c"."id" = "r"."cadet_id"
+                                         INNER JOIN "events" as "e"
+                                            ON "r"."event_id" = "e"."id"
+                                    WHERE "c"."id" = "cadets"."id"
+                                    GROUP BY "c"."id"
+                                    HAVING COUNT(*) >= 1)').distinct.count %> </h3>
+
+  <% end %>
+
+</section>
+
+

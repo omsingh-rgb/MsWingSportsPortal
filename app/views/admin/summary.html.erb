@@ -29,10 +29,30 @@
 
   <h1 class="title is-1"> CATEGORY SUMMARY</h1>
 
-  <% @date_range = (Date.new(2023, 8, 31) - 15.year)..Date.new(2023, 8, 31) %>
 
-  <h3 class="title"> U15F - <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "female")
-                                     .where('EXISTS (SELECT DISTINCT "c".*
+  <% units = Unit.all.sort %>
+
+  <div class="table-container">
+  <table class="table is-bordered is-striped is-hoverable">
+    <thead>
+    <tr>
+      <th>Category</th>
+      <th>Total</th>
+      <% units.each do |u| %>
+        <th> <%= u.name %></th>
+      <% end %>
+    </tr>
+    </thead>
+
+
+    <% @date_range = (Date.new(2023, 8, 31) - 15.year)..Date.new(2023, 8, 31) %>
+
+    <tbody>
+
+    <tr>
+      <th> U15F</th>
+      <td> <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "female")
+                    .where('EXISTS (SELECT DISTINCT "c".*
                                     FROM "cadets" as "c"
                                          INNER JOIN "registrations" as "r"
                                              ON "c"."id" = "r"."cadet_id"
@@ -40,10 +60,11 @@
                                             ON "r"."event_id" = "e"."id"
                                     WHERE "c"."id" = "cadets"."id"
                                     GROUP BY "c"."id"
-                                    HAVING COUNT(*) >= 1)').distinct.count %> </h3>
+                                    HAVING COUNT(*) >= 1)').distinct.count %> </td>
 
-  <h3 class="title"> U15M - <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "male")
-                                     .where('EXISTS (SELECT DISTINCT "c".*
+      <% units.each do |u| %>
+        <td> <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "female").where(unit: u)
+                      .where('EXISTS (SELECT DISTINCT "c".*
                                     FROM "cadets" as "c"
                                          INNER JOIN "registrations" as "r"
                                              ON "c"."id" = "r"."cadet_id"
@@ -51,12 +72,49 @@
                                             ON "r"."event_id" = "e"."id"
                                     WHERE "c"."id" = "cadets"."id"
                                     GROUP BY "c"."id"
-                                    HAVING COUNT(*) >= 1)').distinct.count %> </h3>
+                                    HAVING COUNT(*) >= 1)').distinct.count %> </td>
+      <% end %>
 
-  <% @date_range = (Date.new(2023, 8, 31) - 17.year)..(Date.new(2023, 8, 31) - 15.year - 1.day) %>
+    </tr>
 
-  <h3 class="title"> U17M - <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "male")
-                                     .where('EXISTS (SELECT DISTINCT "c".*
+
+    <tr>
+
+      <th> U15M</th>
+      <td> <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "male")
+                    .where('EXISTS (SELECT DISTINCT "c".*
+                                    FROM "cadets" as "c"
+                                         INNER JOIN "registrations" as "r"
+                                             ON "c"."id" = "r"."cadet_id"
+                                         INNER JOIN "events" as "e"
+                                            ON "r"."event_id" = "e"."id"
+                                    WHERE "c"."id" = "cadets"."id"
+                                    GROUP BY "c"."id"
+                                    HAVING COUNT(*) >= 1)').distinct.count %> </td>
+
+      <% units.each do |u| %>
+        <td> <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "male").where(unit: u)
+                      .where('EXISTS (SELECT DISTINCT "c".*
+                                    FROM "cadets" as "c"
+                                         INNER JOIN "registrations" as "r"
+                                             ON "c"."id" = "r"."cadet_id"
+                                         INNER JOIN "events" as "e"
+                                            ON "r"."event_id" = "e"."id"
+                                    WHERE "c"."id" = "cadets"."id"
+                                    GROUP BY "c"."id"
+                                    HAVING COUNT(*) >= 1)').distinct.count %> </td>
+      <% end %>
+
+    </tr>
+
+
+    <tr>
+
+      <% @date_range = (Date.new(2023, 8, 31) - 17.year)..(Date.new(2023, 8, 31) - 15.year - 1.day) %>
+
+      <th> U17M</th>
+      <td> <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "male")
+                    .where('EXISTS (SELECT DISTINCT "c".*
                                       FROM "cadets" as "c"
                                            INNER JOIN "registrations" as "r"
                                                ON "c"."id" = "r"."cadet_id"
@@ -64,12 +122,30 @@
                                               ON "r"."event_id" = "e"."id"
                                       WHERE "c"."id" = "cadets"."id"
                                       GROUP BY "c"."id"
-                                      HAVING COUNT(*) >= 1)').distinct.count %> </h3>
+                                      HAVING COUNT(*) >= 1)').distinct.count %> </td>
 
-  <% @date_range = (Date.new(2023, 12, 31) - 20.year)..(Date.new(2023, 8, 31) - 15.year - 1.day) %>
+      <% units.each do |u| %>
+        <td> <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "male").where(unit: u)
+                      .where('EXISTS (SELECT DISTINCT "c".*
+                                    FROM "cadets" as "c"
+                                         INNER JOIN "registrations" as "r"
+                                             ON "c"."id" = "r"."cadet_id"
+                                         INNER JOIN "events" as "e"
+                                            ON "r"."event_id" = "e"."id"
+                                    WHERE "c"."id" = "cadets"."id"
+                                    GROUP BY "c"."id"
+                                    HAVING COUNT(*) >= 1)').distinct.count %> </td>
+      <% end %>
 
-  <h3 class="title"> JW - <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "female")
-                                     .where('EXISTS (SELECT DISTINCT "c".*
+    </tr>
+
+    <tr>
+
+      <% @date_range = (Date.new(2023, 12, 31) - 20.year)..(Date.new(2023, 8, 31) - 15.year - 1.day) %>
+
+      <th> JW</th>
+      <td> <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "female")
+                    .where('EXISTS (SELECT DISTINCT "c".*
                                           FROM "cadets" as "c"
                                                INNER JOIN "registrations" as "r"
                                                    ON "c"."id" = "r"."cadet_id"
@@ -77,13 +153,31 @@
                                                   ON "r"."event_id" = "e"."id"
                                           WHERE "c"."id" = "cadets"."id"
                                           GROUP BY "c"."id"
-                                          HAVING COUNT(*) >= 1)').distinct.count %> </h3>
+                                          HAVING COUNT(*) >= 1)').distinct.count %> </td>
+
+      <% units.each do |u| %>
+        <td> <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "female").where(unit: u)
+                      .where('EXISTS (SELECT DISTINCT "c".*
+                                    FROM "cadets" as "c"
+                                         INNER JOIN "registrations" as "r"
+                                             ON "c"."id" = "r"."cadet_id"
+                                         INNER JOIN "events" as "e"
+                                            ON "r"."event_id" = "e"."id"
+                                    WHERE "c"."id" = "cadets"."id"
+                                    GROUP BY "c"."id"
+                                    HAVING COUNT(*) >= 1)').distinct.count %> </td>
+      <% end %>
+
+    </tr>
 
 
-  <% @date_range = (Date.new(2023, 12, 31) - 20.year)..(Date.new(2023, 8, 31) - 17.year - 1.day) %>
+    <tr>
 
-  <h3 class="title"> JM - <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "male")
-                                     .where('EXISTS (SELECT DISTINCT "c".*
+      <% @date_range = (Date.new(2023, 12, 31) - 20.year)..(Date.new(2023, 8, 31) - 17.year - 1.day) %>
+
+      <th> JM</th>
+      <td> <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "male")
+                    .where('EXISTS (SELECT DISTINCT "c".*
                                           FROM "cadets" as "c"
                                                INNER JOIN "registrations" as "r"
                                                    ON "c"."id" = "r"."cadet_id"
@@ -91,7 +185,26 @@
                                                   ON "r"."event_id" = "e"."id"
                                           WHERE "c"."id" = "cadets"."id"
                                           GROUP BY "c"."id"
-                                          HAVING COUNT(*) >= 1)').distinct.count %> </h3>
+                                          HAVING COUNT(*) >= 1)').distinct.count %> </td>
+
+      <% units.each do |u| %>
+        <td> <%= Cadet.all.where(date_of_birth: @date_range).where(gender: "male").where(unit: u)
+                      .where('EXISTS (SELECT DISTINCT "c".*
+                                    FROM "cadets" as "c"
+                                         INNER JOIN "registrations" as "r"
+                                             ON "c"."id" = "r"."cadet_id"
+                                         INNER JOIN "events" as "e"
+                                            ON "r"."event_id" = "e"."id"
+                                    WHERE "c"."id" = "cadets"."id"
+                                    GROUP BY "c"."id"
+                                    HAVING COUNT(*) >= 1)').distinct.count %> </td>
+      <% end %>
+
+    </tr>
+    </tbody>
+
+  </table>
+  </div>
 
 
 </section>

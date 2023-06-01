@@ -19,6 +19,10 @@ class AdminController < ApplicationController
     @curr = Event.find_by_id(params[:id])
     session[:fall_back_url] = request.url
   end
+  def event_view_field
+    @curr = Event.find_by_id(params[:id])
+    session[:fall_back_url] = request.url
+  end
 
   def password_change
     user = User.where(username: params[:username])

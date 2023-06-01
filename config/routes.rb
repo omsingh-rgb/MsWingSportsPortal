@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   get '/admin-users', to: 'admin#userc', as: 'admin_userc'
   get '/admin-regs', to: 'admin#allEntries', as: 'allEntries'
   get '/admin-summary', to: 'admin#summary', as: 'summary'
-  get '/admin-event-view/:id', to: 'admin#event_edit'
+  get '/admin-event-view/:id', to: 'admin#event_view'
   get '/admin-event-view-field/:id', to: 'admin#event_view_field'
   get '/admin-user-delete/:uid', to: 'admin#user_delete'
   post '/admin-push-user-password-change', to: 'admin#password_change'

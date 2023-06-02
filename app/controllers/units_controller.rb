@@ -102,25 +102,12 @@ class UnitsController < ApplicationController
   end
 
   def delete_cadet
-    cadet = Cadet.where(id: params[:cid])
-
-    if cadet.count > 0
-
-      Registration.where(cadet: cadet.first).each do |r|
-        r.delete
-      end
-
-      cadet.first.delete
-    end
-
-    redirect_to cadet_edit_path, message: "Cadet successfully Deleted"
+    redirect_to cadet_edit_path, message: "Can not delete cadets anymore"
   end
 
   def unit_remove_cadet
-    @reg = Registration.where(event_id: params[:eid]).joins(:cadet).where(cadet: { id: params[:cid], unit: helpers.current_user.unit })
-    @reg.destroy_all
 
-    message = "The Cadet has been removed Successfully"
+    message = "The Cadet Cannot be removed"
 
     if session[:fall_back_url] == nil
       redirect_to unit_dashboard_path, notice: message
@@ -131,18 +118,7 @@ class UnitsController < ApplicationController
 
   def unit_add_cadet
 
-    event = Event.where(id: params[:eid]).first
-    cadet = Cadet.where(id: params[:cid]).first
-    registration = Registration.where(event: event).joins(:cadet).where(cadet: { unit: helpers.current_user.unit })
-    number_registered = registration.count
-    max_allowed = event.max_entries
-
-    if number_registered >= max_allowed
-      message = "The Cadet cannot be added the max number of cadets has been exceeded"
-    else
-      Registration.create(event: event, cadet: cadet)
-      message = "The Cadet has been added successfully"
-    end
+    message = "This Cannot be done at this time now"
 
     if session[:fall_back_url] == nil
       redirect_to unit_dashboard_path, notice: message
@@ -179,47 +155,7 @@ class UnitsController < ApplicationController
 
   def cadet_event_create
 
-    event = Event.where(id: params[:eid]).first
-
-    if event.max_age == 15
-      if event.gender == "female"
-        date_range = (Date.new(2023, 8, 31) - event.max_age.year)..Date.new(2023, 8, 31)
-      else
-        date_range = (Date.new(2023, 8, 31) - event.max_age.year)..Date.new(2023, 8, 31)
-      end
-    elsif event.max_age == 17
-      date_range = (Date.new(2023, 8, 31) - event.max_age.year)..(Date.new(2023, 8, 31) - 15.year - 1.day)
-    elsif event.max_age == 20
-      if event.gender == "female"
-        date_range = (Date.new(2023, 12, 31) - event.max_age.year)..(Date.new(2023, 8, 31) - 15.year - 1.day)
-      else
-        date_range = (Date.new(2023, 12, 31) - event.max_age.year)..(Date.new(2023, 8, 31) - 17.year - 1.day)
-      end
-    end
-
-    registration = Registration.where(event: event).joins(:cadet).where(cadet: { unit: helpers.current_user.unit })
-    number_registered = registration.count
-    max_allowed = event.max_entries
-
-    if number_registered >= max_allowed
-      message = "The Cadet cannot be added the max number of cadets has been exceeded"
-    elsif !date_range.cover?(params[:dob].to_s.to_date)
-      message = "The Cadet your trying to add is too old or young"
-    elsif params[:cid] == ""
-      message = "You Need to provide a CID"
-    elsif params[:gender].downcase != "male" and params[:gender].downcase != "female"
-      message = "You need to enter a correct category Male/Female"
-    else
-      cadet = Cadet.create(first_name: params[:first_name],
-                           last_name: params[:last_name],
-                           date_of_birth: params[:dob],
-                           cadet_id: params[:cid],
-                           gender: params[:gender].downcase,
-                           unit: helpers.current_user.unit)
-
-      Registration.create(event: event, cadet: cadet)
-      message = "The Cadet has  created and been added successfully"
-    end
+    message = "This cannot be done anymore"
 
     if session[:fall_back_url] == nil
       redirect_to unit_dashboard_path, notice: message

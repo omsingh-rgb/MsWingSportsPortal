@@ -62,17 +62,17 @@ class UnitsController < ApplicationController
 
         if r.event.max_age == 15
           if r.event.gender == "female"
-            date_range = (Date.new(2023, 8, 31) - event.max_age.year)..Date.new(2023, 8, 31)
+            date_range = (Date.new(2023, 8, 31) - r.event.max_age.year)..Date.new(2023, 8, 31)
           else
-            date_range = (Date.new(2023, 8, 31) - event.max_age.year)..Date.new(2023, 8, 31)
+            date_range = (Date.new(2023, 8, 31) - r.event.max_age.year)..Date.new(2023, 8, 31)
           end
         elsif r.event.max_age == 17
-          date_range = (Date.new(2023, 8, 31) - event.max_age.year)..(Date.new(2023, 8, 31) - 15.year - 1.day)
+          date_range = (Date.new(2023, 8, 31) - r.event.max_age.year)..(Date.new(2023, 8, 31) - 15.year - 1.day)
         elsif r.event.max_age == 20
           if r.event.gender == "female"
-            date_range = (Date.new(2023, 12, 31) - event.max_age.year)..(Date.new(2023, 8, 31) - 15.year - 1.day)
+            date_range = (Date.new(2023, 12, 31) - r.event.max_age.year)..(Date.new(2023, 8, 31) - 15.year - 1.day)
           else
-            date_range = (Date.new(2023, 12, 31) - event.max_age.year)..(Date.new(2023, 8, 31) - 17.year - 1.day)
+            date_range = (Date.new(2023, 12, 31) - r.event.max_age.year)..(Date.new(2023, 8, 31) - 17.year - 1.day)
           end
         end
 

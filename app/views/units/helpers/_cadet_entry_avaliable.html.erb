@@ -5,10 +5,13 @@
 
       <%= render 'units/helpers/cadet_info_as_level_items', c:cadet %>
 
-      <% disabled = 'title="Disabled button" disabled' %>
+      <% disabled = "" %>
+      <% if more_signups_available  %>
+        <% disabled = 'title="Disabled button" disabled' %>
+      <% end %>
 
       <div class="level-item" >
-        <a class='button is-success is-outlined'  href="" <%= disabled %>>
+        <a class='button is-success is-outlined'  href="/unit-add-cadet/<%= event.id %>/<%= cadet.id %>" <%= disabled %>>
           <span>Add</span>
           <span class='icon is-small'>
                   &check;

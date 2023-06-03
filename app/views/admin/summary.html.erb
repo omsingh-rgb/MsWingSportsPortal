@@ -209,6 +209,36 @@
 
 </section>
 
+<section>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Unit</th>
+      <th>Rank</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% Manager.all.each do |m| %>
+
+      <tr>
+        <th><%= m.unit.name %></th>
+        <td><%= m.rank %></td>
+        <td><%= m.first_name %></td>
+        <td><%= m.last_name %></td>
+        <td><%= m.email %></td>
+        <td><%= m.phone %></td>
+      </tr>
+
+    <% end %>
+
+    </tbody>
+  </table>
+</section>
 
 <section class="section">
 
